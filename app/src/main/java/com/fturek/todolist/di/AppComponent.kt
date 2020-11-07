@@ -2,13 +2,13 @@ package com.fturek.todolist.di
 
 import android.app.Application
 import com.fturek.todolist.ui.BaseActivity
-import com.fturek.todolist.ui.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 
 @Component(
     modules = [
-        AppModule::class
+        AppModule::class,
+        SubcomponentsModule::class
     ]
 )
 interface AppComponent {
@@ -21,6 +21,8 @@ interface AppComponent {
 
         fun build(): AppComponent
     }
+
+    fun listTodosComponent(): ListTodoSubComponent.Factory
 
     fun inject(baseActivity: BaseActivity)
 }

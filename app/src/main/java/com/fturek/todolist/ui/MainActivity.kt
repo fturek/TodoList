@@ -21,6 +21,11 @@ class MainActivity : BaseActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, ListTodoFragment.newInstance())
+            .commit()
     }
 
     companion object {
