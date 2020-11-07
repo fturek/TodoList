@@ -1,6 +1,6 @@
-package com.fturek.todolist.di
+package com.fturek.todolist.di.modules
 
-import com.fturek.todolist.api.remote.ApiService
+import com.fturek.todolist.data.remote.ApiService
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

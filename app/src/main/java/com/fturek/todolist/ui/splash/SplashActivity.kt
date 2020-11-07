@@ -1,8 +1,10 @@
-package com.fturek.todolist.ui
+package com.fturek.todolist.ui.splash
 
 import android.os.Bundle
 import android.os.Handler
 import com.fturek.todolist.databinding.ActivitySplashBinding
+import com.fturek.todolist.ui.BaseActivity
+import com.fturek.todolist.ui.MainActivity
 
 class SplashActivity : BaseActivity() {
 

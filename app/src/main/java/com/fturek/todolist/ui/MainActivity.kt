@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.fturek.todolist.BaseApplication
 import com.fturek.todolist.R
 import com.fturek.todolist.databinding.ActivityMainBinding
+import com.fturek.todolist.ui.listtodo.ListTodoFragment
 
 class MainActivity : BaseActivity() {
 

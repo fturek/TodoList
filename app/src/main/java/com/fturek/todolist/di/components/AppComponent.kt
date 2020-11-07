@@ -1,6 +1,10 @@
-package com.fturek.todolist.di
+package com.fturek.todolist.di.components
 
 import android.app.Application
+import com.fturek.todolist.di.modules.AppModule
+import com.fturek.todolist.di.modules.SubcomponentsModule
+import com.fturek.todolist.di.viewmodels.ViewModelFactoryModule
+import com.fturek.todolist.di.modules.ListTodoViewModelModule
 import com.fturek.todolist.ui.BaseActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -8,7 +12,9 @@ import dagger.Component
 @Component(
     modules = [
         AppModule::class,
-        SubcomponentsModule::class
+        SubcomponentsModule::class,
+        ViewModelFactoryModule::class,
+        ListTodoViewModelModule::class
     ]
 )
 interface AppComponent {

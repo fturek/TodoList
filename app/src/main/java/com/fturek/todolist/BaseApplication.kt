@@ -1,8 +1,8 @@
 package com.fturek.todolist
 
 import android.app.Application
-import com.fturek.todolist.di.AppComponent
-import com.fturek.todolist.di.DaggerAppComponent
+import com.fturek.todolist.di.components.AppComponent
+import com.fturek.todolist.di.components.DaggerAppComponent
 
 class BaseApplication : Application() {
 

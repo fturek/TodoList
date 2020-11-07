@@ -1,4 +1,4 @@
-package com.fturek.todolist.api.remote
+package com.fturek.todolist.data.remote
 
 import io.reactivex.Single
 import retrofit2.http.GET

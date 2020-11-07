@@ -1,6 +1,7 @@
-package com.fturek.todolist.di
+package com.fturek.todolist.di.components
 
-import com.fturek.todolist.ui.ListTodoFragment
+import com.fturek.todolist.di.modules.ListTodoModule
+import com.fturek.todolist.ui.listtodo.ListTodoFragment
 import dagger.Subcomponent
 import javax.inject.Singleton
 
