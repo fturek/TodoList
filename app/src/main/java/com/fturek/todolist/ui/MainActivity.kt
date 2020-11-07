@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.fturek.todolist.BaseApplication
+import com.fturek.todolist.R
 import com.fturek.todolist.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
@@ -19,5 +20,12 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
+    companion object {
+        fun intentFor(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
     }
 }
