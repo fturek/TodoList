@@ -1,18 +1,17 @@
 package com.fturek.todolist.ui.listtodo
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.fturek.todolist.BaseApplication
 import com.fturek.todolist.databinding.FragmentListTodoBinding
 import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
+import com.fturek.todolist.ui.BaseFragment
 import javax.inject.Inject
 
-class ListTodoFragment : Fragment() {
+class ListTodoFragment : BaseFragment() {
 
     private var _binding: FragmentListTodoBinding? = null
     private val binding get() = _binding!!
@@ -24,13 +23,16 @@ class ListTodoFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory).get(ListTodoViewModel::class.java)
     }
 
-    override fun onAttach(context: Context) {
-        (context.applicationContext as BaseApplication)
+    override fun inject() {
+        (context?.applicationContext as BaseApplication)
+            .appComponent.
+            inject(this)
+
+        (context?.applicationContext as BaseApplication)
             .appComponent
-            .listTodosComponent()
+            .listTodoComponent()
             .create()
             .inject(this)
-        super.onAttach(context)
     }
 
     override fun onCreateView(
