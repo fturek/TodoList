@@ -30,8 +30,7 @@ class ListTodoFragment : BaseFragment() {
 
     override fun inject() {
         (context?.applicationContext as BaseApplication)
-            .appComponent.
-            inject(this)
+            .appComponent.inject(this)
 
         (context?.applicationContext as BaseApplication)
             .appComponent

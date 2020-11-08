@@ -2,7 +2,6 @@ package com.fturek.todolist.di.modules
 
 import com.fturek.todolist.data.remote.ApiService
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

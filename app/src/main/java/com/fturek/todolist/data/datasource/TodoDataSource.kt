@@ -1,4 +1,4 @@
-package com.fturek.todolist.data
+package com.fturek.todolist.data.datasource
 
 import android.annotation.SuppressLint
 import androidx.paging.PageKeyedDataSource
