@@ -5,7 +5,6 @@ import com.fturek.todolist.ui.listtodo.ListTodoFragment
 import dagger.Subcomponent
 import javax.inject.Singleton
 
-@Singleton
 @Subcomponent(
     modules = [
         ListTodoModule::class

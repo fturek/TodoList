@@ -3,6 +3,7 @@ package com.fturek.todolist
 import android.app.Application
 import com.fturek.todolist.di.components.AppComponent
 import com.fturek.todolist.di.components.DaggerAppComponent
+import com.google.firebase.FirebaseApp
 
 class BaseApplication : Application() {
 
@@ -11,6 +12,7 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         initAppComponent()
+        FirebaseApp.initializeApp(this)
     }
 
     private fun initAppComponent() {
