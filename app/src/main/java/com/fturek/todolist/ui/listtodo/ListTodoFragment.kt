@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fturek.todolist.BaseApplication
 import com.fturek.todolist.databinding.FragmentListTodoBinding
 import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
 import com.fturek.todolist.ui.BaseFragment
+import com.fturek.todolist.ui.listtodo.list.TodoListAdapter
 import javax.inject.Inject
 
 class ListTodoFragment : BaseFragment() {
@@ -18,6 +20,9 @@ class ListTodoFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
+
+    @Inject
+    lateinit var todosListAdapter: TodoListAdapter
 
     private val viewModel: ListTodoViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ListTodoViewModel::class.java)
@@ -48,7 +53,15 @@ class ListTodoFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.isWorking()
+        binding.todoRecyclerView.adapter = todosListAdapter
+        binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
+
+        viewModel
+            .getTodos()
+            ?.observe(viewLifecycleOwner, {
+                (binding.todoRecyclerView.adapter as TodoListAdapter).submitList(it)
+                (binding.todoRecyclerView.adapter as TodoListAdapter).notifyDataSetChanged()
+            })
     }
 
     companion object {
