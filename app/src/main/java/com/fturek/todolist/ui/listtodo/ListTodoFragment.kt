@@ -1,5 +1,6 @@
 package com.fturek.todolist.ui.listtodo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
 import com.fturek.todolist.ui.BaseFragment
 import com.fturek.todolist.ui.listtodo.list.TodoListAdapter
 import javax.inject.Inject
+import android.util.Log
 
 class ListTodoFragment : BaseFragment() {
 
@@ -50,6 +52,7 @@ class ListTodoFragment : BaseFragment() {
         return binding.root
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,6 +60,18 @@ class ListTodoFragment : BaseFragment() {
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         handleLoader()
+
+        (binding.todoRecyclerView.adapter as TodoListAdapter)
+            .clickSubject
+            .subscribe {
+                Log.e("Felipe", "just click")
+            }
+
+        (binding.todoRecyclerView.adapter as TodoListAdapter)
+            .longClickSubject
+            .subscribe {
+                Log.e("Felipe", "long click")
+            }
     }
 
     override fun onStart() {

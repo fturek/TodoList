@@ -5,9 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fturek.todolist.R
 import com.fturek.todolist.data.model.TodoItem
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
+import javax.inject.Named
 
-class TodoListAdapter @Inject constructor() : RecyclerView.Adapter<TodoItemViewHolder>() {
+class TodoListAdapter @Inject constructor(
+    @Named("clickSubject") var clickSubject: PublishSubject<TodoItem>,
+    @Named("longClickSubject") var longClickSubject: PublishSubject<TodoItem>
+) : RecyclerView.Adapter<TodoItemViewHolder>() {
 
     var todoList: List<TodoItem> = mutableListOf()
 
@@ -24,6 +29,15 @@ class TodoListAdapter @Inject constructor() : RecyclerView.Adapter<TodoItemViewH
             todoItemDescription = todoItem.description ?: "",
             todoItemUrl = todoItem.iconUrl ?: "",
         )
+
+        holder.itemView.setOnClickListener {
+            clickSubject.onNext(todoItem)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            longClickSubject.onNext(todoItem)
+            true
+        }
     }
 
     override fun getItemCount() = todoList.size
