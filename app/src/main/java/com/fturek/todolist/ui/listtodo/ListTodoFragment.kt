@@ -94,6 +94,7 @@ class ListTodoFragment : BaseFragment() {
             .subscribe { todoItem ->
                 showDeleteDialog(todoItem)
             }
+
     }
 
     private fun showDeleteDialog(todoItem: TodoItem) {
