@@ -62,7 +62,7 @@ class ListTodoFragment : BaseFragment() {
         viewModel
             .getTodos()
             ?.observe(viewLifecycleOwner, {
-                (binding.todoRecyclerView.adapter as TodoListAdapter).submitList(it)
+                (binding.todoRecyclerView.adapter as TodoListAdapter).todoList = it
                 (binding.todoRecyclerView.adapter as TodoListAdapter).notifyDataSetChanged()
             })
     }

@@ -2,14 +2,14 @@ package com.fturek.todolist.ui.listtodo.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.fturek.todolist.R
 import com.fturek.todolist.data.model.TodoItem
-import com.fturek.todolist.data.model.TodoItemResultDiffCallback
 import javax.inject.Inject
 
-class TodoListAdapter @Inject constructor() :
-    PagedListAdapter<TodoItem, TodoItemViewHolder>(TodoItemResultDiffCallback()) {
+class TodoListAdapter @Inject constructor() : RecyclerView.Adapter<TodoItemViewHolder>() {
+
+    var todoList: List<TodoItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
         val view =
@@ -18,12 +18,14 @@ class TodoListAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
-        val todoItem = getItem(position)
+        val todoItem = todoList[position]
         holder.bind(
-            todoItemTitle = todoItem?.title ?: "",
-            todoItemDescription = todoItem?.description ?: "",
-            todoItemUrl = todoItem?.iconUrl ?: "",
+            todoItemTitle = todoItem.title ?: "",
+            todoItemDescription = todoItem.description ?: "",
+            todoItemUrl = todoItem.iconUrl ?: "",
         )
     }
+
+    override fun getItemCount() = todoList.size
 
 }

@@ -1,31 +1,48 @@
 package com.fturek.todolist.ui.listtodo
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import com.fturek.todolist.data.datasourcefactory.TodoListDataSourceFactory
 import com.fturek.todolist.data.model.TodoItem
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import javax.inject.Inject
 
 class ListTodoViewModel @Inject constructor(
-    var todoListDataSourceFactory: TodoListDataSourceFactory
+    var todoCollectionReference: CollectionReference
 ) : ViewModel() {
 
-    private var todoList: LiveData<PagedList<TodoItem>>? = null
+    private var todoList: MutableLiveData<List<TodoItem>> = MutableLiveData()
 
     @SuppressLint("CheckResult")
-    fun getTodos(): LiveData<PagedList<TodoItem>>? {
-        val config = PagedList.Config.Builder()
-            .setPageSize(20)
-            .setInitialLoadSizeHint(20)
-            .setEnablePlaceholders(false)
-            .build()
+    fun getTodos(): LiveData<List<TodoItem>>? {
+        todoCollectionReference
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                override fun onEvent(
+                    querySnaphchot: QuerySnapshot?,
+                    error: FirebaseFirestoreException?
+                ) {
+                    if (error != null) {
+                        // Handle error
+                        return
+                    }
 
-        todoList = LivePagedListBuilder(todoListDataSourceFactory, config)
-            .setInitialLoadKey(1)
-            .build()
+                    if (querySnaphchot == null) {
+                        // Handle error
+                        return
+                    }
+
+                    val listMapped = querySnaphchot
+                        .map {
+                            it.toObject(TodoItem::class.java)
+                        }
+                    todoList.postValue(listMapped)
+                }
+            })
 
         return todoList
     }
