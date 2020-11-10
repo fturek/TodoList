@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import javax.inject.Inject
 
+
 class ListTodoViewModel @Inject constructor(
     var todoCollectionReference: CollectionReference,
     var networkState: MutableLiveData<NetworkState>
@@ -62,5 +63,28 @@ class ListTodoViewModel @Inject constructor(
             })
 
         return todoList
+    }
+
+    fun deleteTodoItem(itemToDelete: TodoItem) {
+        todoCollectionReference
+            .whereEqualTo("title", itemToDelete.title)
+            .whereEqualTo("description", itemToDelete.description)
+            .whereEqualTo("iconUrl", itemToDelete.iconUrl)
+            .whereEqualTo("createdAt", itemToDelete.createdAt)
+            .get().addOnCompleteListener { task ->
+
+                if (!task.isSuccessful || task.result?.isEmpty!!) {
+                    networkState.postValue(NetworkState(Status.DELETED_FAILED))
+                    return@addOnCompleteListener
+                }
+
+                task.result?.forEach { document ->
+                    todoCollectionReference
+                        .document(document.id)
+                        .delete()
+                }
+
+                networkState.postValue(NetworkState(Status.DELETED))
+            }
     }
 }

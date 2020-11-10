@@ -114,7 +114,11 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     // Android Spin kit
-    def android_spin_kit = "1.4.0"
-    implementation "com.github.ybq:Android-SpinKit:$android_spin_kit"
+    def android_spin_kit_version = "1.4.0"
+    implementation "com.github.ybq:Android-SpinKit:$android_spin_kit_version"
+
+    // Material Dialogs
+    def material_dialogs_version = "3.3.0"
+    implementation "com.afollestad.material-dialogs:core:$material_dialogs_version"
 
 }

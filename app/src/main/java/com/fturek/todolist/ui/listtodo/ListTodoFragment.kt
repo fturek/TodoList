@@ -15,6 +15,9 @@ import com.fturek.todolist.ui.BaseFragment
 import com.fturek.todolist.ui.listtodo.list.TodoListAdapter
 import javax.inject.Inject
 import android.util.Log
+import com.afollestad.materialdialogs.MaterialDialog
+import com.fturek.todolist.R
+import com.fturek.todolist.data.model.TodoItem
 
 class ListTodoFragment : BaseFragment() {
 
@@ -52,7 +55,6 @@ class ListTodoFragment : BaseFragment() {
         return binding.root
     }
 
-    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,18 +63,9 @@ class ListTodoFragment : BaseFragment() {
 
         handleLoader()
 
-        (binding.todoRecyclerView.adapter as TodoListAdapter)
-            .clickSubject
-            .subscribe {
-                Log.e("Felipe", "just click")
-            }
-
-        (binding.todoRecyclerView.adapter as TodoListAdapter)
-            .longClickSubject
-            .subscribe {
-                Log.e("Felipe", "long click")
-            }
+        handleClicks()
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -87,6 +80,37 @@ class ListTodoFragment : BaseFragment() {
                 (binding.todoRecyclerView.adapter as TodoListAdapter).todoList = it
                 (binding.todoRecyclerView.adapter as TodoListAdapter).notifyDataSetChanged()
             })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun handleClicks() {
+        (binding.todoRecyclerView.adapter as TodoListAdapter)
+            .clickSubject
+            .subscribe {
+                Log.e("Felipe", "just click")
+            }
+
+        (binding.todoRecyclerView.adapter as TodoListAdapter)
+            .longClickSubject
+            .subscribe { todoItem ->
+                showDeleteDialog(todoItem)
+            }
+    }
+
+    private fun showDeleteDialog(todoItem: TodoItem) {
+        MaterialDialog(requireContext())
+            .message(R.string.dialog_delete_item_title)
+            .show {
+                positiveButton(R.string.dialog_delete_item_agree) {
+                    viewModel
+                        .deleteTodoItem(
+                            itemToDelete = todoItem
+                        )
+                }
+                negativeButton(R.string.delete_delete_item_cancel) {
+                    dismiss()
+                }
+            }
     }
 
     private fun handleLoader() {
@@ -104,6 +128,16 @@ class ListTodoFragment : BaseFragment() {
                         hideHUD()
 
                         handleError(networkState)
+                    }
+                    Status.DELETED -> {
+                        showToastWithMsg(
+                            getString(R.string.delete_delete_item_success)
+                        )
+                    }
+                    Status.DELETED_FAILED -> {
+                        showToastWithMsg(
+                            getString(R.string.delete_delete_item_error)
+                        )
                     }
                 }
             })

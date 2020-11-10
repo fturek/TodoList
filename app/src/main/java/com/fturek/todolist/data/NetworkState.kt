@@ -9,5 +9,7 @@ class NetworkState constructor(
 enum class Status {
     LOADING,
     LOADED,
-    FAILED
+    FAILED,
+    DELETED_FAILED,
+    DELETED
 }

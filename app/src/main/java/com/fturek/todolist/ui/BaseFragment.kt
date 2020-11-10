@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.fturek.todolist.R
@@ -51,13 +52,13 @@ abstract class BaseFragment : Fragment() {
         showSnackBar(errorBody)
     }
 
-    private fun showSnackBar(errorBody: String) {
-        Snackbar
-            .make(requireView(), errorBody, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.snack_bar_error_try_again) {
-                showHUD()
-            }
-            .show()
+    fun showToastWithMsg(msg: String){
+        Toast
+            .makeText(
+                requireContext(),
+                msg,
+                Toast.LENGTH_LONG
+            ).show()
     }
 
     fun showHUD() {
@@ -82,5 +83,14 @@ abstract class BaseFragment : Fragment() {
             startDelay = 200
             start()
         }
+    }
+
+    private fun showSnackBar(errorBody: String) {
+        Snackbar
+            .make(requireView(), errorBody, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.snack_bar_error_try_again) {
+                showHUD()
+            }
+            .show()
     }
 }

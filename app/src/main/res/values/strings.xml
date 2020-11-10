@@ -9,4 +9,10 @@
     <string name="error_network_connection">Check your internet connection or try again later.</string>
     <string name="error_network_timeout">Unstable network at the moment, please try again later.</string>
 
+    <string name="dialog_delete_item_title">Are u sure to delete todo item?</string>
+    <string name="dialog_delete_item_agree">Yes, delete!</string>
+    <string name="delete_delete_item_cancel">Cancel</string>
+    <string name="delete_delete_item_success">Successfully deleted item!</string>
+    <string name="delete_delete_item_error">Something went wrong during deleting item. Try again</string>
+
 </resources>
