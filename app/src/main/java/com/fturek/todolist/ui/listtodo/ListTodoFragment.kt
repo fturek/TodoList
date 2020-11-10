@@ -54,6 +54,10 @@ class ListTodoFragment : BaseFragment() {
 
         binding.todoRecyclerView.adapter = todosListAdapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         viewModel
             .getTodos()
