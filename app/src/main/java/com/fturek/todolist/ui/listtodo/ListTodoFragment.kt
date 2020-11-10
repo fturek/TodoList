@@ -15,6 +15,8 @@ import com.fturek.todolist.ui.BaseFragment
 import com.fturek.todolist.ui.listtodo.list.TodoListAdapter
 import javax.inject.Inject
 import android.util.Log
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.afollestad.materialdialogs.MaterialDialog
 import com.fturek.todolist.R
 import com.fturek.todolist.data.model.TodoItem
@@ -30,8 +32,10 @@ class ListTodoFragment : BaseFragment() {
     @Inject
     lateinit var todosListAdapter: TodoListAdapter
 
+    private var navController: NavController? = null
+
     private val viewModel: ListTodoViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory).get(ListTodoViewModel::class.java)
+        ViewModelProvider(requireActivity(), viewModelFactory).get(ListTodoViewModel::class.java)
     }
 
     override fun inject() {
@@ -57,6 +61,8 @@ class ListTodoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
 
         binding.todoRecyclerView.adapter = todosListAdapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -95,6 +101,9 @@ class ListTodoFragment : BaseFragment() {
                 showDeleteDialog(todoItem)
             }
 
+        binding.fab.setOnClickListener  {
+            navController?.navigate(R.id.action_listTodoFragment_to_addEditTodoFragment)
+        }
     }
 
     private fun showDeleteDialog(todoItem: TodoItem) {
