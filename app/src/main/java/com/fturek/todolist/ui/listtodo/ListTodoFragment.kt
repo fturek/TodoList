@@ -61,11 +61,10 @@ class ListTodoFragment : BaseFragment() {
         binding.todoRecyclerView.adapter = todosListAdapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
 
+        handleShowingPlaceHolder()
         handleLoader()
-
         handleClicks()
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -123,6 +122,7 @@ class ListTodoFragment : BaseFragment() {
                     }
                     Status.LOADED -> {
                         hideHUD()
+                        handleShowingPlaceHolder()
                     }
                     Status.FAILED -> {
                         hideHUD()
@@ -133,6 +133,7 @@ class ListTodoFragment : BaseFragment() {
                         showToastWithMsg(
                             getString(R.string.delete_delete_item_success)
                         )
+                        handleShowingPlaceHolder()
                     }
                     Status.DELETED_FAILED -> {
                         showToastWithMsg(
@@ -141,6 +142,14 @@ class ListTodoFragment : BaseFragment() {
                     }
                 }
             })
+    }
+
+    private fun handleShowingPlaceHolder() {
+        if (!(binding.todoRecyclerView.adapter as TodoListAdapter).todoList.isNullOrEmpty()) {
+            binding.emptyPlaceHolder.visibility = View.GONE
+            return
+        }
+        binding.emptyPlaceHolder.visibility = View.VISIBLE
     }
 
     companion object {
