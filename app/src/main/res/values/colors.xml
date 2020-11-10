@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#022546</color>
     <color name="colorAccent">#ED8B78</color>
     <color name="colorBackground">#F7F7F7</color>
+
+    <color name="fragmentColor">#ffffff</color>
+    <color name="loaderColor">#E0E0E0</color>
 </resources>

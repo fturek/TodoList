@@ -3,4 +3,10 @@
 
     <string name="todo_item_title">Title</string>
     <string name="todo_item_description">Desctiprion</string>
+
+    <string name="snack_bar_error_try_again">Try again!</string>
+    <string name="error_something_went_wrong">Something went wrong.\nPlease, try again!</string>
+    <string name="error_network_connection">Check your internet connection or try again later.</string>
+    <string name="error_network_timeout">Unstable network at the moment, please try again later.</string>
+
 </resources>

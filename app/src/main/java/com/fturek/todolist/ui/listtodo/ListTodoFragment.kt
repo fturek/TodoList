@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fturek.todolist.BaseApplication
+import com.fturek.todolist.data.Status
 import com.fturek.todolist.databinding.FragmentListTodoBinding
 import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
 import com.fturek.todolist.ui.BaseFragment
@@ -54,16 +55,42 @@ class ListTodoFragment : BaseFragment() {
 
         binding.todoRecyclerView.adapter = todosListAdapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
+
+        handleLoader()
     }
 
     override fun onStart() {
         super.onStart()
 
+        fetchFromRemote()
+    }
+
+    override fun fetchFromRemote() {
         viewModel
             .getTodos()
             ?.observe(viewLifecycleOwner, {
                 (binding.todoRecyclerView.adapter as TodoListAdapter).todoList = it
                 (binding.todoRecyclerView.adapter as TodoListAdapter).notifyDataSetChanged()
+            })
+    }
+
+    private fun handleLoader() {
+        viewModel
+            .networkState
+            .observe(viewLifecycleOwner, { networkState ->
+                when (networkState.status) {
+                    Status.LOADING -> {
+                        showHUD()
+                    }
+                    Status.LOADED -> {
+                        hideHUD()
+                    }
+                    Status.FAILED -> {
+                        hideHUD()
+
+                        handleError(networkState)
+                    }
+                }
             })
     }
 
