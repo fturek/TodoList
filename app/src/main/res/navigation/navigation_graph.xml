@@ -8,6 +8,11 @@
         android:id="@+id/listTodoFragment"
         android:name="com.fturek.todolist.ui.listtodo.ListTodoFragment"
         android:label="ListTodoFragment">
+        <argument android:name="todo_action"
+            android:defaultValue="None"/>
+
+        <argument android:name="todo_item_to_update"
+            android:defaultValue="package com.fturek.todolist.data.model.TodoItem"/>
         <action
             android:id="@+id/action_listTodoFragment_to_addEditTodoFragment"
             app:destination="@id/addEditTodoFragment"

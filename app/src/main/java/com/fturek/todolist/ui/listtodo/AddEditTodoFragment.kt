@@ -13,6 +13,8 @@ import com.fturek.todolist.data.model.TodoItem
 import com.fturek.todolist.databinding.FragmentAddEditTodoBinding
 import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
 import com.fturek.todolist.ui.BaseFragment
+import com.fturek.todolist.ui.listtodo.ListTodoFragment.Companion.TODO_ACTION_EDIT
+import com.fturek.todolist.ui.listtodo.ListTodoFragment.Companion.TODO_ACTION_NEW
 import com.google.firebase.Timestamp
 import java.util.*
 import javax.inject.Inject
@@ -30,6 +32,10 @@ class AddEditTodoFragment : BaseFragment(), View.OnClickListener {
     private val viewModel: ListTodoViewModel by lazy {
         ViewModelProvider(requireActivity(), viewModelFactory).get(ListTodoViewModel::class.java)
     }
+
+    var action = TODO_ACTION_NEW
+
+    private var todoItemToEdit: TodoItem? = null
 
     override fun fetchFromRemote() {
         // do nothing
@@ -62,15 +68,43 @@ class AddEditTodoFragment : BaseFragment(), View.OnClickListener {
         navController = Navigation.findNavController(view)
 
         binding.submitButton.setOnClickListener(this)
+
+        if (arguments == null) {
+            return
+        }
+        
+        action = arguments?.getString(TODO_ACTION_EXTRA) ?: ""
+        if (action == TODO_ACTION_NEW) {
+            binding.titleFragment.text = getString(R.string.todo_item_new_title_label)
+            return
+        }
+        binding.titleFragment.text = getString(R.string.todo_item_edit_title_label)
+
+        todoItemToEdit = requireArguments().getParcelable(TODO_ITEM_EXTRA) ?: return
+
+        binding.title.setText(todoItemToEdit?.title)
+        binding.description.setText(todoItemToEdit?.description)
+        binding.iconUrl.setText(todoItemToEdit?.iconUrl)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             binding.submitButton.id -> {
-                viewModel
-                    .addItem(
-                        prepareTodoItemToSend()
-                    )
+                when (action) {
+                    TODO_ACTION_NEW -> {
+                        viewModel
+                            .addItem(
+                                prepareTodoItemToSend()
+                            )
+                    }
+                    TODO_ACTION_EDIT -> {
+                        viewModel
+                            .updateItem(
+                                todoItemToEdit,
+                                prepareTodoItemToSend()
+                            )
+                    }
+                }
                 navController?.navigate(R.id.action_addEditTodoFragment_to_listTodoFragment)
             }
         }
@@ -87,6 +121,11 @@ class AddEditTodoFragment : BaseFragment(), View.OnClickListener {
             iconUrl = todoItemIconUrl,
             createdAt = Timestamp(Calendar.getInstance().time)
         )
+    }
+
+    companion object {
+        const val TODO_ACTION_EXTRA = "edit"
+        const val TODO_ITEM_EXTRA = "TODO_ITEM_EXTRA"
     }
 
 }

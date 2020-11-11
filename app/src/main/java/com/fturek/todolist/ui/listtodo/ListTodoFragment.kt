@@ -2,10 +2,10 @@ package com.fturek.todolist.ui.listtodo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -18,6 +18,8 @@ import com.fturek.todolist.data.model.TodoItem
 import com.fturek.todolist.databinding.FragmentListTodoBinding
 import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
 import com.fturek.todolist.ui.BaseFragment
+import com.fturek.todolist.ui.listtodo.AddEditTodoFragment.Companion.TODO_ACTION_EXTRA
+import com.fturek.todolist.ui.listtodo.AddEditTodoFragment.Companion.TODO_ITEM_EXTRA
 import com.fturek.todolist.ui.listtodo.list.TodoListAdapter
 import javax.inject.Inject
 
@@ -92,8 +94,19 @@ class ListTodoFragment : BaseFragment() {
     private fun handleClicks() {
         (binding.todoRecyclerView.adapter as TodoListAdapter)
             .clickSubject
-            .subscribe {
-                Log.e("Felipe", "just click")
+            .subscribe { todoItem ->
+
+                val bundle = bundleOf(
+                    TODO_ACTION_EXTRA to TODO_ACTION_EDIT,
+                    TODO_ITEM_EXTRA to todoItem
+                )
+                if (navController?.currentDestination?.id != R.id.listTodoFragment) {
+                    return@subscribe
+                }
+                navController?.navigate(
+                    R.id.action_listTodoFragment_to_addEditTodoFragment,
+                    bundle
+                )
             }
 
         (binding.todoRecyclerView.adapter as TodoListAdapter)
@@ -103,7 +116,13 @@ class ListTodoFragment : BaseFragment() {
             }
 
         binding.fab.setOnClickListener {
-            navController?.navigate(R.id.action_listTodoFragment_to_addEditTodoFragment)
+            val bundle = bundleOf(
+                TODO_ACTION_EXTRA to TODO_ACTION_NEW,
+            )
+            navController?.navigate(
+                R.id.action_listTodoFragment_to_addEditTodoFragment,
+                bundle
+            )
         }
     }
 
@@ -123,6 +142,7 @@ class ListTodoFragment : BaseFragment() {
             }
     }
 
+    // TODO can be moved to BaseFragment
     private fun handleLoader() {
         viewModel
             .networkState
@@ -144,11 +164,30 @@ class ListTodoFragment : BaseFragment() {
                         showToastWithMsg(
                             getString(R.string.delete_delete_item_success)
                         )
-                        handleShowingPlaceHolder()
                     }
                     Status.DELETED_FAILED -> {
                         showToastWithMsg(
                             getString(R.string.delete_delete_item_error)
+                        )
+                    }
+                    Status.ADDED -> {
+                        showToastWithMsg(
+                            getString(R.string.add_item_success)
+                        )
+                    }
+                    Status.ADDED_FAILED -> {
+                        showToastWithMsg(
+                            getString(R.string.add_item_error)
+                        )
+                    }
+                    Status.UPDATED -> {
+                        showToastWithMsg(
+                            getString(R.string.update_item_success)
+                        )
+                    }
+                    Status.UPDATED_FAILED -> {
+                        showToastWithMsg(
+                            getString(R.string.update_item_error)
                         )
                     }
                 }
@@ -163,4 +202,8 @@ class ListTodoFragment : BaseFragment() {
         binding.emptyPlaceHolder.visibility = View.VISIBLE
     }
 
+    companion object {
+        const val TODO_ACTION_NEW = "new"
+        const val TODO_ACTION_EDIT = "edit"
+    }
 }

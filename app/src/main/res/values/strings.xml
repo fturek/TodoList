@@ -15,6 +15,10 @@
     <string name="delete_delete_item_cancel">Cancel</string>
     <string name="delete_delete_item_success">Successfully deleted item!</string>
     <string name="delete_delete_item_error">Something went wrong during deleting item. Try again</string>
+    <string name="add_item_success">Successfully added item!</string>
+    <string name="add_item_error">Something went wrong during adding item. Try again</string>
+    <string name="update_item_success">Successfully updated item!</string>
+    <string name="update_item_error">Something went wrong during updating item. Try again</string>
 
     <string name="todo_item_new_title_label">Add New Todo Item</string>
     <string name="todo_item_edit_title_label">Edit Todo Item</string>

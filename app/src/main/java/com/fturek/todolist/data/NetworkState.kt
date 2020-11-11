@@ -13,5 +13,7 @@ enum class Status {
     DELETED,
     DELETED_FAILED,
     ADDED,
-    ADDED_FAILED
+    ADDED_FAILED,
+    UPDATED,
+    UPDATED_FAILED
 }
