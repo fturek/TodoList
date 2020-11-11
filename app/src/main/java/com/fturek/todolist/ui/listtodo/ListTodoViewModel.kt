@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.fturek.todolist.data.FireBaseCustomOptions
 import com.fturek.todolist.data.NetworkState
 import com.fturek.todolist.data.Status
 import com.fturek.todolist.data.model.TodoItem
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import javax.inject.Inject
 
 
@@ -28,6 +26,7 @@ class ListTodoViewModel @Inject constructor(
         networkState.postValue(NetworkState(Status.LOADING))
 
         todoCollectionReference
+            .orderBy(FireBaseCustomOptions.ORDER_BY, FireBaseCustomOptions.ORDER_BY_DIRECTION)
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(
                     querySnaphchot: QuerySnapshot?,
