@@ -2,24 +2,24 @@ package com.fturek.todolist.ui.listtodo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.fturek.todolist.BaseApplication
+import com.fturek.todolist.R
 import com.fturek.todolist.data.Status
+import com.fturek.todolist.data.model.TodoItem
 import com.fturek.todolist.databinding.FragmentListTodoBinding
 import com.fturek.todolist.di.viewmodels.ViewModelProviderFactory
 import com.fturek.todolist.ui.BaseFragment
 import com.fturek.todolist.ui.listtodo.list.TodoListAdapter
 import javax.inject.Inject
-import android.util.Log
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import com.afollestad.materialdialogs.MaterialDialog
-import com.fturek.todolist.R
-import com.fturek.todolist.data.model.TodoItem
 
 class ListTodoFragment : BaseFragment() {
 
@@ -84,6 +84,7 @@ class ListTodoFragment : BaseFragment() {
             ?.observe(viewLifecycleOwner, {
                 (binding.todoRecyclerView.adapter as TodoListAdapter).todoList = it
                 (binding.todoRecyclerView.adapter as TodoListAdapter).notifyDataSetChanged()
+                handleShowingPlaceHolder()
             })
     }
 
@@ -101,7 +102,7 @@ class ListTodoFragment : BaseFragment() {
                 showDeleteDialog(todoItem)
             }
 
-        binding.fab.setOnClickListener  {
+        binding.fab.setOnClickListener {
             navController?.navigate(R.id.action_listTodoFragment_to_addEditTodoFragment)
         }
     }
@@ -162,12 +163,4 @@ class ListTodoFragment : BaseFragment() {
         binding.emptyPlaceHolder.visibility = View.VISIBLE
     }
 
-    companion object {
-        fun newInstance(): ListTodoFragment {
-            val fragment = ListTodoFragment()
-            val bundle = Bundle()
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
 }

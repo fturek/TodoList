@@ -66,12 +66,6 @@ dependencies {
     def firebase_version = "22.0.0"
     implementation "com.google.firebase:firebase-firestore:$firebase_version"
 
-    // Retrofit
-    def retrofit_version = "2.5.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-
     // RxJava
     def rx_java_version = "2.2.11"
     def rx_java_android_version = "2.1.1"

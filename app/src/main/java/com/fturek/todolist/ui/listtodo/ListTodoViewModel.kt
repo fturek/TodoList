@@ -65,6 +65,18 @@ class ListTodoViewModel @Inject constructor(
         return todoList
     }
 
+    fun addItem(item: TodoItem) {
+        todoCollectionReference
+            .document()
+            .set(item)
+            .addOnSuccessListener {
+                networkState.postValue(NetworkState(Status.ADDED))
+            }
+            .addOnFailureListener {
+                networkState.postValue(NetworkState(Status.FAILED))
+            }
+    }
+
     fun deleteTodoItem(itemToDelete: TodoItem) {
         todoCollectionReference
             .whereEqualTo("title", itemToDelete.title)

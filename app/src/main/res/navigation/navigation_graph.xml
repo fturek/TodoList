@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
     app:startDestination="@id/listTodoFragment">
 
     <fragment
         android:id="@+id/listTodoFragment"
         android:name="com.fturek.todolist.ui.listtodo.ListTodoFragment"
-        android:label="ListTodoFragment" >
+        android:label="ListTodoFragment">
         <action
             android:id="@+id/action_listTodoFragment_to_addEditTodoFragment"
             app:destination="@id/addEditTodoFragment"
@@ -18,5 +19,13 @@
     <fragment
         android:id="@+id/addEditTodoFragment"
         android:name="com.fturek.todolist.ui.listtodo.AddEditTodoFragment"
-        android:label="AddEditTodoFragment" />
+        android:label="AddEditTodoFragment">
+        <action
+            android:id="@+id/action_addEditTodoFragment_to_listTodoFragment"
+            app:destination="@id/listTodoFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 </navigation>

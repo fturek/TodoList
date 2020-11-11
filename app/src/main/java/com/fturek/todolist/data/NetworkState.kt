@@ -10,6 +10,8 @@ enum class Status {
     LOADING,
     LOADED,
     FAILED,
+    DELETED,
     DELETED_FAILED,
-    DELETED
+    ADDED,
+    ADDED_FAILED
 }
