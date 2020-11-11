@@ -79,7 +79,7 @@ class ListTodoViewModel @Inject constructor(
     }
 
     fun updateItem(itemToUpdate: TodoItem?, newItem: TodoItem) {
-        if(itemToUpdate == null){
+        if (itemToUpdate == null) {
             return
         }
 

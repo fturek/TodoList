@@ -72,7 +72,7 @@ class AddEditTodoFragment : BaseFragment(), View.OnClickListener {
         if (arguments == null) {
             return
         }
-        
+
         action = arguments?.getString(TODO_ACTION_EXTRA) ?: ""
         if (action == TODO_ACTION_NEW) {
             binding.titleFragment.text = getString(R.string.todo_item_new_title_label)
