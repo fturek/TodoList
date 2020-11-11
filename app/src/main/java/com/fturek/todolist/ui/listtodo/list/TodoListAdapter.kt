@@ -28,6 +28,7 @@ class TodoListAdapter @Inject constructor(
             todoItemTitle = todoItem.title ?: "",
             todoItemDescription = todoItem.description ?: "",
             todoItemUrl = todoItem.iconUrl ?: "",
+            createdAt = todoItem.createdAt
         )
 
         holder.itemView.setOnClickListener {

@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.fturek.todolist.databinding.ViewTodoItemBinding
+import com.fturek.todolist.ui.utils.DateUtils
+import com.google.firebase.Timestamp
 import kotlinx.android.extensions.LayoutContainer
 
 class TodoItemViewHolder(
@@ -13,10 +15,16 @@ class TodoItemViewHolder(
 
     private var binding = ViewTodoItemBinding.bind(itemView)
 
-    fun bind(todoItemTitle: String, todoItemDescription: String, todoItemUrl: String) {
+    fun bind(
+        todoItemTitle: String,
+        todoItemDescription: String,
+        todoItemUrl: String,
+        createdAt: Timestamp?
+    ) {
         setTitle(todoItemTitle)
         setDescription(todoItemDescription)
         setIcon(todoItemUrl)
+        setCreatedAtDate(createdAt)
     }
 
     private fun setTitle(todoItemTitle: String) {
@@ -34,6 +42,10 @@ class TodoItemViewHolder(
             .transition(DrawableTransitionOptions.withCrossFade())
             .centerInside()
             .into(binding.todoItemIcon)
+    }
+
+    private fun setCreatedAtDate(createdAt: Timestamp?) {
+        binding.todoCreatedAt.text = DateUtils.getDateInFormat(createdAt?.toDate())
     }
 
 }

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.fturek.todolist.R
 import com.fturek.todolist.data.NetworkState
 import com.google.android.material.snackbar.Snackbar
-import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -34,10 +33,6 @@ abstract class BaseFragment : Fragment() {
 
     fun handleError(networkState: NetworkState) {
         val errorBody = when (networkState.error) {
-            is HttpException -> {
-                val error: HttpException = networkState.error as HttpException
-                error.response().errorBody()?.string() ?: ""
-            }
             is SocketTimeoutException -> {
                 getString(R.string.error_network_timeout)
             }
