@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -69,6 +70,7 @@ class ListTodoFragment : BaseFragment() {
         binding.todoRecyclerView.adapter = todosListAdapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(activity)
 
+        handleOnBackClick()
         handleShowingPlaceHolder()
         handleLoader()
         handleClicks()
@@ -194,6 +196,16 @@ class ListTodoFragment : BaseFragment() {
             })
     }
 
+    private fun handleOnBackClick() {
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            })
+    }
+    
     private fun handleShowingPlaceHolder() {
         if (!(binding.todoRecyclerView.adapter as TodoListAdapter).todoList.isNullOrEmpty()) {
             binding.emptyPlaceHolder.visibility = View.GONE

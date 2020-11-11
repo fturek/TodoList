@@ -3,9 +3,13 @@ package com.fturek.todolist.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.fturek.todolist.BaseApplication
 import com.fturek.todolist.R
 import com.fturek.todolist.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : BaseActivity() {
 

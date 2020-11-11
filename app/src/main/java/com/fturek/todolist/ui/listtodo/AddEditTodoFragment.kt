@@ -103,6 +103,7 @@ class AddEditTodoFragment : BaseFragment(), View.OnClickListener {
                                 todoItemToEdit,
                                 prepareTodoItemToSend()
                             )
+                        todoItemToEdit = null
                     }
                 }
                 navController?.navigate(R.id.action_addEditTodoFragment_to_listTodoFragment)
